@@ -1,0 +1,40 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    container:
+      image: debian:unstable
+      options: --privileged
+    steps:
+      - uses: actions/checkout@v4
+
+      - run: ./setup-pbuilder.sh
+
+      - run: ./hyprland.sh
+
+      - run: rm /var/cache/pbuilder/result/hyprland-dbgsym_*
+      - run: ls -l /var/cache/pbuilder/result
+
+      - name: release
+        uses: ncipollo/release-action@v1
+        with:
+          allowUpdates: true
+          artifactErrorsFailBuild: true
+          removeArtifacts: true
+          tag: latest
+          artifacts: /var/cache/pbuilder/result/*.deb
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - run: apt install -y curl
+
+      - uses: iliabylich/ppa@notify
+        with:
+          token: ${{ secrets.PPA_TOKEN }}
