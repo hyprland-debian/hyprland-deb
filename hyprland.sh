@@ -1,12 +1,9 @@
 #!/usr/bin/env bash
 
-VER=0.40.0
+VER=0.41.2
 
 apt install -y git
-git clone https://github.com/hyprwm/Hyprland.git --recursive
-mv Hyprland hyprland-$VER
-cd hyprland-$VER
-git reset --hard ec092bd601d9d351ff6ca34bd97f12055b2a4dd9
+git clone https://github.com/hyprwm/Hyprland.git --branch=v$VER --recursive --depth=1 hyprland-$VER
 
 mkdir debian
 
