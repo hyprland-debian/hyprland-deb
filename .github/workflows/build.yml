@@ -6,14 +6,18 @@ on:
       - master
   pull_request:
 
+env:
+  BUILD_VERSION: "0.41.2"
+
 jobs:
   build:
     name: build
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
 
-      - run: ./rebuild.sh
+      - run: ./build.sh
 
       - run: ls -l
 
@@ -23,10 +27,10 @@ jobs:
           allowUpdates: true
           artifactErrorsFailBuild: true
           removeArtifacts: true
-          tag: latest
+          tag: v${{ env.BUILD_VERSION }}
           artifacts: "*.deb"
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: iliabylich/ppa@notify
+      - uses: hyprland-debian/hyprland-debian.github.io@trigger-refresh
         with:
-          token: ${{ secrets.PPA_TOKEN }}
+          token: ${{ secrets.GH_REFRESH_TOKEN }}
