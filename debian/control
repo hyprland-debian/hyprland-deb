@@ -1,0 +1,12 @@
+Source: hyprland
+Section: utils
+Priority: extra
+Maintainer: John Doe <john@doe.org>
+Standards-Version: VERSION_TEMPLATE
+
+Package: hyprland
+Section: utils
+Priority: extra
+Architecture: amd64
+Depends: ${shlibs:Depends}, kitty (>= 0.0.0), hyprwayland-scanner (>= 0.0.0)
+Description: Hyprland is a highly customizable dynamic tiling Wayland compositor that doesn't sacrifice on its looks.
